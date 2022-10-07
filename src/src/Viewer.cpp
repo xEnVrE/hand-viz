@@ -71,57 +71,16 @@ int main(int argc, char** argv)
         container.add_content("hand_fk", std::move(hand));
     }
 
-    /* Show hand according to aruco markers. */
-    if (show_hand_aruco)
-    {
-        /* 'hand_left' is used to show the estimate of the left hand using the left camera. */
-        std::unique_ptr<VtkContent> hand_left = std::unique_ptr<VtkiCubHand>
-        (
-            new VtkiCubHand(robot_name, hand_laterality, "test-visualization/hand_aruco_left", use_fingers, use_analogs, {200.0 / 255.0, 60.0 / 255.0, 60.0 / 255.0}, 1.0)
-        );
-
-	/* 'hand_right' is used to show the estimate of the left hand using the right camera. */
-        std::unique_ptr<VtkContent> hand_right = std::unique_ptr<VtkiCubHand>
-        (
-            new VtkiCubHand(robot_name, hand_laterality, "test-visualization/hand_aruco_right", use_fingers, use_analogs, {60.0 / 255.0, 60.0 / 255.0, 200.0 / 255.0}, 0.6)
-        );
-
-        container.add_content("hand_aruco_left", std::move(hand_left));
-        container.add_content("hand_aruco_right", std::move(hand_right));
-    }
-
     /* Show additional hand for debugging purposes. */
-    if (show_hand_debug)
-    {
-        std::unique_ptr<VtkContent> hand_debug = std::unique_ptr<VtkiCubHand>
-        (
-            new VtkiCubHand(robot_name, hand_laterality, "test-visualization/hand_debug", use_fingers, use_analogs, {60.0 / 255.0, 180.0 / 255.0, 60.0 / 255.0}, 1.0)
-        );
+    // if (show_hand_debug)
+    // {
+    //     std::unique_ptr<VtkContent> hand_debug = std::unique_ptr<VtkiCubHand>
+    //     (
+    //         new VtkiCubHand(robot_name, hand_laterality, "test-visualization/hand_debug", use_fingers, use_analogs, {60.0 / 255.0, 180.0 / 255.0, 60.0 / 255.0}, 1.0)
+    //     );
 
-        container.add_content("hand_aruco_debug", std::move(hand_debug));
-    }
-
-    /* Show point cloud. */
-    if (show_point_cloud)
-    {
-        std::unique_ptr<Camera> camera;
-        if (camera_name == "iCubCamera")
-            camera = std::unique_ptr<iCubCamera>
-            (
-                new iCubCamera(robot_name, "left", "test-visualization", "", "")
-            );
-        else
-        {
-            std::cout << "Error: camera name not recognized." << std::endl;
-            return EXIT_FAILURE;
-        }
-
-        std::unique_ptr<VtkPointCloud> pc = std::unique_ptr<VtkPointCloud>
-        (
-            new VtkPointCloud(std::move(camera))
-        );
-        container.add_content("point_cloud", std::move(pc));
-    }
+    //     container.add_content("hand_aruco_debug", std::move(hand_debug));
+    // }
 
     container.run();
 
